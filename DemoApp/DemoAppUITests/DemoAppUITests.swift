@@ -30,4 +30,13 @@ final class DemoAppUITests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         XCTAssert(app.staticTexts["Hello, world!"].exists)
     }
+    
+    func testExampleFailed() throws {
+        // UI tests must launch the application that they test.
+        let app = XCUIApplication()
+        app.launch()
+
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssert(app.staticTexts["Hello, hellow"].exists)
+    }
 }
