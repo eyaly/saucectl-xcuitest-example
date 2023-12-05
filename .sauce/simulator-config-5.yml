@@ -1,0 +1,55 @@
+apiVersion: v1alpha
+kind: xcuitest
+sauce:
+  region: us-west-1
+  concurrency: 5
+  retries: 1
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Release $CI_COMMIT_SHORT_SHA
+
+xcuitest:
+  app: Apps/DemoApp-Simulator.zip
+  testApp: Apps/DemoAppUITests-Runner-Simulator.zip
+
+suites:
+  - name: "simulator-config-5 - should fail"
+    smartRetry:
+      failedOnly: true
+    timeout: 10m
+    testOptions:
+      class:
+        - DemoAppUITests/DemoAppUITests
+        - DemoAppUITests/DemoAppUIAnotherTests
+    simulators:
+      # To ensure name accuracy, check the list of supported virtual devices:
+      # https://app.saucelabs.com/live/web-testing/virtual
+      - name: "iPhone 11 Simulator"
+        # The set of one or more versions of the device platform on which to run the test suite.
+        platformVersions:
+          - "16.2"
+  - name: "simulator-config-5 - should pass"
+    smartRetry:
+      failedOnly: true
+    timeout: 10m
+    testOptions:
+      class:
+        - DemoAppUITests/DemoAppUITestsLaunchTests
+        - DemoAppUITests/DemoAppUIAnotherTests
+    simulators:
+      # To ensure name accuracy, check the list of supported virtual devices:
+      # https://app.saucelabs.com/live/web-testing/virtual
+      - name: "iPhone 11 Simulator"
+        # The set of one or more versions of the device platform on which to run the test suite.
+        platformVersions:
+          - "16.2"
+ 
+artifacts:
+  download:
+    when: always
+    match:
+      - "junit.xml"
+    directory: ./artifacts/

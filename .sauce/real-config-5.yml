@@ -1,0 +1,47 @@
+apiVersion: v1alpha
+kind: xcuitest
+sauce:
+  region: us-west-1
+  concurrency: 5
+  retries: 1
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Release $CI_COMMIT_SHORT_SHA
+
+xcuitest:
+  app: Apps/DemoApp.ipa
+  testApp: Apps/DemoAppUITests-Runner.ipa
+
+suites:
+  - name: "real-config-5 - should fail"
+    smartRetry:
+      failedOnly: true
+    timeout: 10m
+    testOptions:
+      class:
+        - DemoAppUITests.DemoAppUITests
+        - DemoAppUITests.DemoAppUIAnotherTests
+    devices:
+      - name: "iPhone.*"
+        platformVersion: "16"
+  - name: "real-config-5 - should pass"
+    smartRetry:
+      failedOnly: true
+    timeout: 10m
+    testOptions:
+      class:
+        - DemoAppUITests.DemoAppUITestsLaunchTests
+        - DemoAppUITests.DemoAppUIAnotherTests
+    devices:
+      - name: "iPhone.*"
+        platformVersion: "16"
+ 
+artifacts:
+  download:
+    when: always
+    match:
+      - "junit.xml"
+    directory: ./artifacts/
