@@ -1,0 +1,4 @@
+DemoAppUITests/DemoAppUIAnotherTests/testExample
+DemoAppUITests/DemoAppUITests/testExample
+DemoAppUITests/DemoAppUITests/testExampleFailed
+DemoAppUITests/DemoAppUITestsLaunchTests/testLaunch

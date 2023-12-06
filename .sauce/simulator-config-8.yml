@@ -1,0 +1,33 @@
+apiVersion: v1alpha
+kind: xcuitest
+sauce:
+  region: us-west-1
+  concurrency: 5
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Release $CI_COMMIT_SHORT_SHA
+
+xcuitest:
+  app: Apps/DemoApp-Simulator.zip
+  testApp: Apps/DemoAppUITests-Runner-Simulator.zip
+
+suites:
+  - name: "simulator-config-8 - Instant Booted Simulators"
+    shard: concurrency
+    testListFile: DemoApp/test_sim_classes_and_tests.txt
+    timeout: 10m
+    simulators: 
+      - name: "iPhone Instant Simulator"
+        # The set of one or more versions of the device platform on which to run the test suite.
+        platformVersions:
+          - "16.2"
+ 
+artifacts:
+  download:
+    when: always
+    match:
+      - "junit.xml"
+    directory: ./artifacts/

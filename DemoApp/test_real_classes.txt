@@ -1,0 +1,3 @@
+DemoAppUITests.DemoAppUIAnotherTests
+DemoAppUITests.DemoAppUITests
+DemoAppUITests.DemoAppUITestsLaunchTests

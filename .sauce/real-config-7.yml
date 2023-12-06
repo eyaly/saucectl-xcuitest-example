@@ -1,0 +1,31 @@
+apiVersion: v1alpha
+kind: xcuitest
+sauce:
+  region: us-west-1
+  concurrency: 2
+  retries: 1
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Release $CI_COMMIT_SHORT_SHA
+
+xcuitest:
+  app: Apps/DemoApp.ipa
+  testApp: Apps/DemoAppUITests-Runner.ipa
+
+suites:
+  - name: "real-config-7 - sharding tests"
+    shard: concurrency
+    testListFile: DemoApp/test_real_classes_and_tests.txt
+    timeout: 10m
+    devices:
+      - name: "iPhone.*"
+        platformVersion: "16"
+artifacts:
+  download:
+    when: always
+    match:
+      - "junit.xml"
+    directory: ./artifacts/
