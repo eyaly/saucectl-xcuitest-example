@@ -15,15 +15,15 @@ xcuitest:
   testApp: Apps/DemoAppUITests-Runner-Simulator.zip
 
 suites:
-  - name: "simulator-config-8 - Instant Booted Simulators"
+  - name: "simulator-config-9 - Instant Booted Simulators"
     shard: concurrency
     testListFile: DemoApp/test_sim_classes_and_tests.txt
     timeout: 10m
     simulators: 
-      - name: "iPhone 14 Simulator"
+      - name: "iPhone Instant Simulator"
         # The set of one or more versions of the device platform on which to run the test suite.
         platformVersions:
-          - "16.2"
+          - "current_major"
  
 artifacts:
   download:
