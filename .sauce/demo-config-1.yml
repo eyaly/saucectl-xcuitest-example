@@ -1,0 +1,45 @@
+apiVersion: v1alpha
+kind: xcuitest
+sauce:
+  region: eu-central-1
+  concurrency: 5
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Release 
+
+xcuitest:
+  app: Apps/DemoApp.ipa
+  testApp: Apps/DemoAppUITests-Runner.ipa
+
+suites:
+  - name: "demo-config-16--1"
+    # timeout: 10m
+    testOptions:
+       class: ["DemoAppUITests.DemoAppUIAnotherLoopTests",
+               "DemoAppUITests.DemoAppUIAnotherLoopTests"]
+    devices:
+      - name: "iPhone.*"
+        platformVersion: "16"
+  - name: "demo-config-17-1"
+    # timeout: 10m
+    testOptions:
+       class: ["DemoAppUITests.DemoAppUIAnotherLoopTests",
+               "DemoAppUITests.DemoAppUIAnotherLoopTests"]
+    devices:
+      - name: "iPhone.*"
+        platformVersion: "17"
+
+reporters:
+  junit:
+    enabled: true
+    filename: ./XCUIResults.xml
+
+artifacts:
+  download:
+    when: always
+    match:
+      - "junit.xml"
+    directory: ./artifacts/
