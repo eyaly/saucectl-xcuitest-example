@@ -15,19 +15,17 @@ xcuitest:
   testApp: Apps/DemoAppUITests-Runner.ipa
 
 suites:
-  - name: "demo-config-16--1"
+  - name: "demo-config-16--100Tests"
     # timeout: 10m
     testOptions:
-       class: ["DemoAppUITests.DemoAppUIAnotherLoopTests",
-               "DemoAppUITests.DemoAppUIAnotherLoopTests"]
+       class: ["DemoAppUITests.DemoAppUIAnotherLoopTests"]
     devices:
       - name: "iPhone.*"
         platformVersion: "16"
-  - name: "demo-config-17-1"
+  - name: "demo-config-17-100Tests"
     # timeout: 10m
     testOptions:
-       class: ["DemoAppUITests.DemoAppUIAnotherLoopTests",
-               "DemoAppUITests.DemoAppUIAnotherLoopTests"]
+       class: ["DemoAppUITests.DemoAppUIAnotherLoopTests"]
     devices:
       - name: "iPhone.*"
         platformVersion: "17"
