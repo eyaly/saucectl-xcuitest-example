@@ -97,7 +97,7 @@ jobs:
   #         path: DemoApp/build/Build/Products/Debug-iphonesimulator/*.zip
 
   test:
-    needs: build-for-rdc
+    # needs: build-for-rdc
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
