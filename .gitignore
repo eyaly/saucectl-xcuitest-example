@@ -8,7 +8,6 @@ demo-apps/
 build/
 payload/
 Payload/
-*.ipa
 *.pbxuser
 *.mode1v3
 *.mode2v3
