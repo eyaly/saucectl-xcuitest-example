@@ -1,72 +1,72 @@
-name: Sauce Labs Integration
+# name: Sauce Labs Integration
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-env:
-  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-  APP: WardrobeApp.zip
-  TEST_APP: WardrobeAppUITests-Runner.zip
+# env:
+#   SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+#   SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+#   APP: WardrobeApp.zip
+#   TEST_APP: WardrobeAppUITests-Runner.zip
 
-jobs:
-  test:
-    runs-on: macos-14
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+# jobs:
+#   test:
+#     runs-on: macos-14
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
 
-      - name: Build XCUITest Artifacts
-        run: |
-          xcodebuild \
-            CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-            clean build-for-testing \
-            -project WardrobeApp.xcodeproj \
-            -scheme "WardrobeApp" \
-            -sdk iphonesimulator \
-            -configuration Debug \
-            -derivedDataPath build
-          cd build/Build/Products/Debug-iphonesimulator
-          zip --symlinks -r WardrobeApp.zip WardrobeApp.app
-          zip --symlinks -r WardrobeAppUITests-Runner.zip WardrobeAppUITests-Runner.app
+#       - name: Build XCUITest Artifacts
+#         run: |
+#           xcodebuild \
+#             CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
+#             clean build-for-testing \
+#             -project WardrobeApp.xcodeproj \
+#             -scheme "WardrobeApp" \
+#             -sdk iphonesimulator \
+#             -configuration Debug \
+#             -derivedDataPath build
+#           cd build/Build/Products/Debug-iphonesimulator
+#           zip --symlinks -r WardrobeApp.zip WardrobeApp.app
+#           zip --symlinks -r WardrobeAppUITests-Runner.zip WardrobeAppUITests-Runner.app
 
-      - name: Configure Sauce Labs
-        run: |
-          mkdir -p .sauce
-          cat > .sauce/config.yml << EOL
-          apiVersion: v1alpha
-          kind: xcuitest
-          sauce:
-            region: us-west-1
+#       - name: Configure Sauce Labs
+#         run: |
+#           mkdir -p .sauce
+#           cat > .sauce/config.yml << EOL
+#           apiVersion: v1alpha
+#           kind: xcuitest
+#           sauce:
+#             region: us-west-1
 
-          xcuitest:
-            app: ${{ env.APP }}
-            testApp: ${{ env.TEST_APP }}
+#           xcuitest:
+#             app: ${{ env.APP }}
+#             testApp: ${{ env.TEST_APP }}
 
-          suites:
-            - name: "WardrobeApp Tests"
-              timeout: 15m
-              simulators:
-                - name: "iPhone 15 Pro Simulator"
-                  platformVersions:
-                    - "17.2"
+#           suites:
+#             - name: "WardrobeApp Tests"
+#               timeout: 15m
+#               simulators:
+#                 - name: "iPhone 15 Pro Simulator"
+#                   platformVersions:
+#                     - "17.2"
 
-          artifacts:
-            download:
-              when: always
-              match:
-                - "junit.xml"
-              directory: ./artifacts/
+#           artifacts:
+#             download:
+#               when: always
+#               match:
+#                 - "junit.xml"
+#               directory: ./artifacts/
 
-          reporters:
-            spotlight:
-              enabled: true
-          EOL
+#           reporters:
+#             spotlight:
+#               enabled: true
+#           EOL
 
-      - name: Run Tests on Sauce Labs
-        uses: saucelabs/saucectl-run-action@v4
-        with:
-          concurrency: 2
+#       - name: Run Tests on Sauce Labs
+#         uses: saucelabs/saucectl-run-action@v4
+#         with:
+#           concurrency: 2
